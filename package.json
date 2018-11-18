@@ -1,0 +1,24 @@
+{
+  "name": "assistivenavigation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.16.4",
+    "socketio": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deyim/ATR_PROJECT.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/deyim/ATR_PROJECT/issues"
+  },
+  "homepage": "https://github.com/deyim/ATR_PROJECT#readme"
+}
