@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "express": "^4.16.4",
+    "socket.io-stream": "^0.9.1",
     "socketio": "^1.0.0"
   },
   "devDependencies": {},

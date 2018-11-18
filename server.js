@@ -18,24 +18,24 @@ var findPath = ()=>{
 
 
 
-// const publicPath = path.join(__dirname,'/public');
+const publicPath = path.join(__dirname,'/public');
 app.use(express.static(publicPath));
 
 server.listen(port, ()=>{
     console.log("Starting the server...");
 })
 
-var path = findPath();
+var myPath = findPath();
 
 io.on('connection', (socket)=>{
     console.log('raspberrypi connected');
 
-    socket.emit('turn on', {pi: path[0]});
+    socket.emit('turn on', {pi: myPath[0]});
 
-    for(var i = 1 ; i < path.length ; i++){
+    for(var i = 1 ; i < myPath.length ; i++){
     	socket.on('on dock', function(msg){
 	   		/*msg = {sender: 3}*/
-	        socket.broadcast.emit('turn on', {pi: path[i]});
+	        socket.broadcast.emit('turn on', {pi: myPath[i]});
 	    })  
     }
 
