@@ -13,7 +13,7 @@ var io = socketIO(server);
 
 var findPath = ()=>{
 	;
-	return [1,2];
+	return [1,2,3];
 }
 
 
@@ -27,17 +27,45 @@ server.listen(port, ()=>{
 
 var myPath = findPath();
 
+
+
 io.on('connection', (socket)=>{
     console.log('raspberrypi connected');
 
     socket.emit('turn on', {pi: myPath[0]});
+    
 
-    for(var i = 1 ; i < myPath.length ; i++){
-    	socket.on('on dock', function(msg){
-	   		/*msg = {sender: 3}*/
-	        socket.broadcast.emit('turn on', {pi: myPath[i]});
-	    })  
-    }
+    i = 1
+	socket.on('on dock', function(msg, fn){
+		console.log(msg.pi, " is on the dock");
+		if (i == myPath.length){
+	    	console.log("Destination Arrived!!");
+	    }
+	    else{
+	    	console.log("turn on ", myPath[i]);
+			socket.broadcast.emit('turn on', {pi: myPath[i]});
+			i++;
+	    }		
+	});
+
+    
+ //    async function waitOnDock(){
+ //    	console.log("wait On Dock");
+ //    	let promise = new Promise((resolve, reject) => {
+	// 	    socket.broadcast.emit('turn on', {pi: myPath[i]});
+	// 	 });
+	// 	socket.on('on dock', function(msg){
+	// 		console.log(msg.pi, " is on the dock");
+	// 		await promise
+	// 	});
+	// 	console.log("promise ended");
+	// }
+
+ //    for(var i = 1 ; i < myPath.length ; i++){	
+ //    	console.log(i)	
+	// 	waitOnDock();    			
+	// }
+	
 
 	socket.on('disconnect', ()=>{
 	    console.log('browser shutdown');
