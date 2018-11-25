@@ -1,0 +1,19 @@
+<div>
+    <script>
+        $(document).ready(function() {
+          let url = 'http://localhost:3000/path_request';
+          
+          let data = {
+              endPoint: url
+              }; 
+              $.ajax({
+                url: url,
+                method: 'GET',
+                data: data,
+                dataType: 'json' 
+              }).done(function(response) {
+                  console.log(response);
+              });              
+        });
+    </script>
+</div>
