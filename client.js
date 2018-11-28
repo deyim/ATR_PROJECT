@@ -26,7 +26,7 @@ socket.on('turn on', function(msg){
     if(msg.pi == myNodeNumber){
         relay.writeSync(1);
 	console.log("turned on", msg.pi)        
-        console.log("111 roomba moving")
+    console.log("111 roomba moving")
         
 
 	hall.watch((err, value) => {

@@ -1,19 +1,60 @@
 <div>
-    <script>
-        $(document).ready(function() {
-          let url = 'http://localhost:3000/path_request';
-          
-          let data = {
-              endPoint: url
-              }; 
-              $.ajax({
-                url: url,
-                method: 'GET',
-                data: data,
-                dataType: 'json' 
-              }).done(function(response) {
-                  console.log(response);
-              });              
-        });
-    </script>
+    <div id="mynetwork">
+        <div class="vis-network" style="position: relative; overflow: hidden; touch-action: pan-y; -moz-user-select: none; width: 100%; height: 100%;" tabindex="900">
+            <canvas style="position: relative; touch-action: none; -moz-user-select: none; width: 100%; height: 100%;" width="900" height="600">
+            </canvas>
+        </div>
+    </div>
 </div>
+
+<form id='route' method= 'POST' action="/path_request">
+  starting point: <input type="text" name="startPoint"><br>
+  ending point: <input type="text" name="endPoint"><br>
+  <input type="submit" value="Submit">
+</form>
+
+<script>
+    
+    var graph = new Object()
+    var myPath = new Object()
+
+    $(document).ready(function() {
+        let url = 'http://localhost:3000/path_request';
+        
+        let data = {
+            endPoint: url
+            }; 
+            $.ajax({
+            url: url,
+            method: 'GET',
+            data: data,
+            dataType: 'json' 
+            }).done(function(response) {
+                graph = response
+                console.log(graph);
+                // create an array with nodes
+                var nodes = new vis.DataSet()
+                var edges = new vis.DataSet()
+
+                for (var from in response) {
+                    if (response.hasOwnProperty(from)) {
+                        nodes.add({id: from.charCodeAt(0)-65, label: from})
+                        for(var to in response[from]){
+                           edges.add({from: from.charCodeAt(0)-65, to: to.charCodeAt(0)-65})
+                        }                        
+                    }
+                }
+            
+                // create a network
+                var container = document.getElementById('mynetwork');
+                var data = {
+                    nodes: nodes,
+                    edges: edges
+                };
+                var options = {};
+                var network = new vis.Network(container, data, options);
+            });              
+    });
+
+
+</script>
