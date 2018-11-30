@@ -1,17 +1,21 @@
-<div>
-    <div id="mynetwork">
-        <div class="vis-network" style="position: relative; overflow: hidden; touch-action: pan-y; -moz-user-select: none; width: 100%; height: 100%;" tabindex="900">
-            <canvas style="position: relative; touch-action: none; -moz-user-select: none; width: 100%; height: 100%;" width="900" height="600">
-            </canvas>
-        </div>
+<!-- <div> -->
+<div id="mynetwork">
+    <div class="vis-network" style="position: relative; overflow: hidden; touch-action: pan-y; -moz-user-select: none; width: 100%; height: 100%;" tabindex="900">
+        <canvas style="position: relative; touch-action: none; -moz-user-select: none; width: 100%; height: 100%;" width="900" height="600">
+        </canvas>
     </div>
 </div>
+<!-- </div> -->
 
-<form id='route' method= 'POST' action="/path_request">
-  starting point: <input type="text" name="startPoint"><br>
-  ending point: <input type="text" name="endPoint"><br>
-  <input type="submit" value="Submit">
-</form>
+<div id=route_form>
+    <form id='route' method= 'POST' action="/path_request">
+      starting point: 
+      <input class='input_12box' type="text" name="startPoint"><br>
+      ending point: 
+      <input class = 'input_12box' type="text" name="endPoint"><br>
+      <input class='input_12box' type="submit" value="Submit">
+    </form>
+</div>
 
 <script>
     
@@ -31,16 +35,18 @@
             dataType: 'json' 
             }).done(function(response) {
                 graph = response
-                console.log(graph);
                 // create an array with nodes
                 var nodes = new vis.DataSet()
                 var edges = new vis.DataSet()
+                console.log(edges['_data'])
 
                 for (var from in response) {
                     if (response.hasOwnProperty(from)) {
                         nodes.add({id: from.charCodeAt(0)-65, label: from})
                         for(var to in response[from]){
-                           edges.add({from: from.charCodeAt(0)-65, to: to.charCodeAt(0)-65})
+                            // if ({from: to.charCodeAt(0)-65}, to: from.charCodeAt(0)-65} in edges) == false{
+                                 edges.add({from: from.charCodeAt(0)-65, to: to.charCodeAt(0)-65})
+                            // }                           
                         }                        
                     }
                 }

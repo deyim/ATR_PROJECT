@@ -1,2 +1,26 @@
-<h1>Navigation</h1>
-{{myPath}}
+<h1 id='navigation_title'>Navigation</h1>
+<div id="navigation">
+	{{path}}
+</div>
+<script>
+	var socket = io('/navigation');
+		
+	$( document ).ready(function() {
+	    console.log( "ready!" );
+	    
+	    socket.emit('start')
+	});
+	// socket.emit('turn on', {pi: myPath[0]});
+	socket.on('turn on', function(msg){
+		console.log(msg)
+		document.getElementById('navigation').innerHTML += '  =>  ';
+		document.getElementById('navigation').innerHTML += msg['pi'];
+		
+	});
+
+	socket.on('finish', function(msg){
+		console.log("finish")
+		document.getElementById('navigation').innerHTML += '  Arrived!'
+	})
+
+</script>
