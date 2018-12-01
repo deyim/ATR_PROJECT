@@ -1,26 +1,37 @@
 <h1 id='navigation_title'>Navigation</h1>
 <div id="navigation">
-	{{path}}
+	<!-- {{path}} -->
+	Start
 </div>
 <script>
-	var socket = io('/navigation');
-		
+	// var socket = io('/navigation');
+	var socket = io();	
+
+	
 	$( document ).ready(function() {
-	    console.log( "ready!" );
-	    
-	    socket.emit('start')
+		socket.on('connect', function(){
+			console.log("HTML connected")
+			socket.emit('start')
+		})
+
 	});
-	// socket.emit('turn on', {pi: myPath[0]});
+
 	socket.on('turn on', function(msg){
 		console.log(msg)
 		document.getElementById('navigation').innerHTML += '  =>  ';
-		document.getElementById('navigation').innerHTML += msg['pi'];
-		
+		document.getElementById('navigation').innerHTML += msg['pi'];		
 	});
 
 	socket.on('finish', function(msg){
-		console.log("finish")
-		document.getElementById('navigation').innerHTML += '  Arrived!'
+		document.getElementById('navigation').innerHTML += '=>Arrived!'
 	})
+
+	socket.on('disconnect', function(){
+		console.log('disconnected')
+	})
+
+	// socket.on('disconnect',functinon(){
+	// 	console.log('disconnected')
+	// })
 
 </script>

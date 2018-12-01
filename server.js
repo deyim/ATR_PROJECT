@@ -51,31 +51,32 @@ function map_to_object(map) {
     return out
 }
 
-var nav = io.of('navigation')
-nav.on('connection', function(socket){
+// var nav = io.of('/navigation')
+io.on('connection', function(socket){
     console.log('raspberrypi connected');
-	// nav.emit('connection')
 	// socket.emit('turn on', {pi: myPath[0]}); 
 	i = 1
 	// socket.emit('turn on', {pi: myPath[0]});
-	nav.on('start', function(msg){
-		nav.broadcast.emit('turn on', {pi: myPath[0]});		
+	socket.on('start', function(){
+		console.log("Move!!")
+		io.emit('turn on', {pi: myPath[0]});		
 	})
-	nav.on('on dock', function(msg, fn){
+
+	socket.on('on dock', function(msg, fn){
 		console.log(msg.pi, " is on the dock");
 		if (i == myPath.length){
-			nav.broadcast.emit('finish',{pi: 'Destination'})
+			io.emit('finish',{pi: 'Destination'})
 			console.log("Destination Arrived!!");
 
 		}
 		else{
 			console.log("turn on ", myPath[i]);
-			nav.broadcast.emit('turn on', {pi: myPath[i]});
+			io.emit('turn on', {pi: myPath[i]});
 			i++;
 		}		
 	});
 
-	nav.on('disconnect', ()=>{
+	socket.on('disconnect', ()=>{
 		console.log('browser shutdown');
 	});    
 });

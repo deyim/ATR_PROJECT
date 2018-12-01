@@ -25,21 +25,22 @@ socket.on('turn on', function(msg){
     
     if(msg.pi == myNodeNumber){
         relay.writeSync(1);
-	console.log("turned on", msg.pi)        
-    console.log("111 roomba moving")
-        
+		console.log("turned on", msg.pi)        
+	    console.log("111 roomba moving")
+	        
 
-	hall.watch((err, value) => {
-	        if (err) {
-	           throw err;
-	        }
-	         
-	        if (value == 0){      	
-	        	socket.emit('on dock', {pi: myNodeNumber});
-	        	console.log("arrived to", myNodeNumber);
-        	}
-	});
-    }
+		hall.watch((err, value) => {
+		        if (err) {
+		           throw err;
+		        }
+		         
+		        if (value == 0){      	
+		        	socket.emit('on dock', {pi: myNodeNumber});
+		        	console.log("arrived to", myNodeNumber);
+	        	}
+		});
+	    }
+
+});
 
 
-})
